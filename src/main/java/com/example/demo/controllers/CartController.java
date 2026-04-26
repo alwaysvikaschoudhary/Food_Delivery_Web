@@ -124,4 +124,52 @@ public class CartController {
         model.addAttribute("name", user.getUname());
         return "Order_History";
     }
+
+    // ===== REST API ENDPOINTS FOR AJAX =====
+    @PostMapping("/api/cart/add")
+    @org.springframework.web.bind.annotation.ResponseBody
+    public org.springframework.http.ResponseEntity<?> addToCartApi(@RequestParam("productId") int productId,
+            @RequestParam(value = "quantity", defaultValue = "1") int quantity, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getName().equals("anonymousUser")) {
+            return org.springframework.http.ResponseEntity.status(org.springframework.http.HttpStatus.UNAUTHORIZED).body(java.util.Map.of("status", "error", "message", "Please login"));
+        }
+        User user = getLoggedInUser(authentication);
+        Product product = productServices.getProduct(productId);
+        cartService.addToCart(user, product, quantity);
+        int totalItems = cartService.getCartItems(user).stream().mapToInt(CartItem::getQuantity).sum();
+        return org.springframework.http.ResponseEntity.ok().body(java.util.Map.of("status", "success", "cartCount", totalItems));
+    }
+
+    @PostMapping("/api/cart/update/{cartItemId}")
+    @org.springframework.web.bind.annotation.ResponseBody
+    public org.springframework.http.ResponseEntity<?> updateQuantityApi(@PathVariable("cartItemId") int cartItemId,
+                                               @RequestParam("quantity") int quantity,
+                                               Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getName().equals("anonymousUser")) {
+            return org.springframework.http.ResponseEntity.status(org.springframework.http.HttpStatus.UNAUTHORIZED).body(java.util.Map.of("status", "error", "message", "Please login"));
+        }
+        cartService.updateQuantity(cartItemId, quantity);
+        User user = getLoggedInUser(authentication);
+        double cartTotal = cartService.getCartTotal(user);
+        int totalItems = cartService.getCartItems(user).stream().mapToInt(CartItem::getQuantity).sum();
+        
+        CartItem updatedItem = cartService.getCartItems(user).stream().filter(c -> c.getCartItemId() == cartItemId).findFirst().orElse(null);
+        double subtotal = updatedItem != null ? updatedItem.getSubtotal() : 0;
+        
+        return org.springframework.http.ResponseEntity.ok().body(java.util.Map.of("status", "success", "cartCount", totalItems, "cartTotal", cartTotal, "itemSubtotal", subtotal));
+    }
+
+    @GetMapping("/api/cart/count")
+    @org.springframework.web.bind.annotation.ResponseBody
+    public org.springframework.http.ResponseEntity<?> getCartCount(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getName().equals("anonymousUser")) {
+            return org.springframework.http.ResponseEntity.ok().body(java.util.Map.of("cartCount", 0));
+        }
+        User user = getLoggedInUser(authentication);
+        if (user == null) {
+            return org.springframework.http.ResponseEntity.ok().body(java.util.Map.of("cartCount", 0));
+        }
+        int totalItems = cartService.getCartItems(user).stream().mapToInt(CartItem::getQuantity).sum();
+        return org.springframework.http.ResponseEntity.ok().body(java.util.Map.of("cartCount", totalItems));
+    }
 }

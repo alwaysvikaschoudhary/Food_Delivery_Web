@@ -101,7 +101,8 @@
         .btn-checkout {
             width: 100%;
             padding: 15px;
-            background: var(--gradient-primary);
+            background: #E63946; /* Solid red fallback */
+            background: linear-gradient(135deg, var(--primary, #FF6B35), var(--primary-dark, #E55A2B));
             color: white;
             border: none;
             border-radius: var(--radius-md);
@@ -131,22 +132,39 @@
         <div class="cart-container" th:if="${not #lists.isEmpty(cartItems)}">
             <!-- Cart Items -->
             <div class="cart-items">
-                <div class="cart-item" th:each="item : ${cartItems}">
-                    <div class="item-details">
-                        <h4 th:text="${item.product.pname}">Product Name</h4>
-                        <p>₹<span th:text="${item.product.pprice}"></span> × <span th:text="${item.quantity}"></span></p>
-                    </div>
-                    <div class="item-actions">
-                        <div class="quantity-control">
-                            <form th:action="@{/cart/update/{id}(id=${item.cartItemId})}" method="post">
-                                <input type="number" name="quantity" th:value="${item.quantity}" min="1" max="20" style="width: 60px; padding: 5px; border: 1px solid var(--gray-300); border-radius: 4px;">
-                                <button type="submit" class="qty-btn">Update</button>
-                            </form>
-                        </div>
-                        <div style="font-weight: 600;">₹<span th:text="${item.subtotal}"></span></div>
-                        <a th:href="@{/cart/remove/{id}(id=${item.cartItemId})}" class="remove-btn" title="Remove Item"><i class="fa-solid fa-trash"></i></a>
-                    </div>
-                </div>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--gray-200); text-align: left;">
+                            <th style="padding: 10px 0; color: var(--text-dark);">Product</th>
+                            <th style="padding: 10px 0; color: var(--text-dark);">Price</th>
+                            <th style="padding: 10px 0; color: var(--text-dark); text-align: center;">Quantity</th>
+                            <th style="padding: 10px 0; color: var(--text-dark); text-align: center;">Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item : ${cartItems}" class="cart-item-row" th:data-cart-id="${item.cartItemId}" style="border-bottom: 1px solid var(--gray-200);">
+                            <td style="padding: 15px 0; display: flex; align-items: center; gap: 15px;">
+                                <img th:src="${!#strings.isEmpty(item.product.imageUrl)} ? ${item.product.imageUrl} : @{'/Images/logo.png'}" alt="Product Image" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
+                                <div>
+                                    <h4 th:text="${item.product.pname}" style="margin: 0; color: var(--text-dark);">Product Name</h4>
+                                </div>
+                            </td>
+                            <td style="padding: 15px 0; color: var(--text-dark); font-weight: 600;">
+                                ₹<span class="item-price" th:text="${item.product.pprice}">0</span>
+                            </td>
+                            <td style="padding: 15px 0; text-align: center;">
+                                <div class="quantity-control" style="display: inline-flex; align-items: center; border: 1px solid var(--gray-300); border-radius: 4px; overflow: hidden;">
+                                    <button type="button" class="qty-btn-minus" style="padding: 5px 10px; background: var(--gray-100); border: none; cursor: pointer; color: var(--text-dark);"><i class="fa-solid fa-minus"></i></button>
+                                    <input type="number" class="item-quantity" th:value="${item.quantity}" min="1" max="20" style="width: 40px; padding: 5px; border: none; text-align: center; font-weight: bold; background: white;" readonly>
+                                    <button type="button" class="qty-btn-plus" style="padding: 5px 10px; background: var(--gray-100); border: none; cursor: pointer; color: var(--text-dark);"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                            </td>
+                            <td style="padding: 15px 0; text-align: center;">
+                                <a th:href="@{/cart/remove/{id}(id=${item.cartItemId})}" class="remove-btn" title="Remove Item"><i class="fa-solid fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
             <!-- Cart Summary -->
@@ -154,15 +172,15 @@
                 <h3>Order Summary</h3>
                 <div class="summary-row">
                     <span>Subtotal</span>
-                    <span>₹<span th:text="${cartTotal}"></span></span>
+                    <span>₹<span id="cartSubtotal" th:text="${cartTotal}"></span></span>
                 </div>
                 <div class="summary-row">
                     <span>Delivery Fee</span>
-                    <span>₹50.0</span>
+                    <span>₹<span id="deliveryFee">50.0</span></span>
                 </div>
                 <div class="summary-row summary-total">
                     <span>Total</span>
-                    <span>₹<span th:text="${cartTotal + 50.0}"></span></span>
+                    <span>₹<span id="cartGrandTotal" th:text="${cartTotal + 50.0}"></span></span>
                 </div>
                 <form th:action="@{/order/place}" method="post">
                     <button type="submit" class="btn-checkout">Place Order</button>
@@ -178,6 +196,60 @@
         </div>
     </main>
 
+    <!-- CSRF Token for JS -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <script th:src="@{/js/app.js}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+            const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+            document.querySelectorAll('.cart-item-row').forEach(row => {
+                const cartItemId = row.getAttribute('data-cart-id');
+                const btnMinus = row.querySelector('.qty-btn-minus');
+                const btnPlus = row.querySelector('.qty-btn-plus');
+                const inputQty = row.querySelector('.item-quantity');
+
+                const updateCart = (newQty) => {
+                    const formData = new FormData();
+                    formData.append('quantity', newQty);
+
+                    fetch(`/api/cart/update/${cartItemId}`, {
+                        method: 'POST',
+                        headers: {
+                            [csrfHeader]: csrfToken
+                        },
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data.status === 'success') {
+                            inputQty.value = newQty;
+                            document.getElementById('cartSubtotal').innerText = data.cartTotal;
+                            document.getElementById('cartGrandTotal').innerText = data.cartTotal + 50.0;
+                            if (typeof fetchCartCount === 'function') fetchCartCount();
+                        }
+                    })
+                    .catch(err => console.error(err));
+                };
+
+                btnMinus.addEventListener('click', () => {
+                    let currentQty = parseInt(inputQty.value);
+                    if(currentQty > 1) {
+                        updateCart(currentQty - 1);
+                    }
+                });
+
+                btnPlus.addEventListener('click', () => {
+                    let currentQty = parseInt(inputQty.value);
+                    if(currentQty < 20) {
+                        updateCart(currentQty + 1);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
