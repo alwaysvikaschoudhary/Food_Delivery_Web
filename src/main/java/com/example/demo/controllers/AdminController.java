@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -69,7 +70,7 @@ public class AdminController {
 			session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
 
 			return "redirect:/admin/services";
-		} catch (BadCredentialsException e) {
+		} catch (AuthenticationException e) {
 			model.addAttribute("error", "Invalid email or password");
 			return "Login";
 		}
@@ -99,11 +100,8 @@ public class AdminController {
 			User user = this.services.getUserByEmail(email);
 			session.setAttribute("loggedInUser", user);
 
-			List<Orders> orders = this.orderServices.getOrdersForUser(user);
-			model.addAttribute("orders", orders);
-			model.addAttribute("name", user.getUname());
-			return "BuyProduct";
-		} catch (BadCredentialsException e) {
+			return "redirect:/home";
+		} catch (AuthenticationException e) {
 			model.addAttribute("error2", "Invalid email or password");
 			return "Login";
 		}

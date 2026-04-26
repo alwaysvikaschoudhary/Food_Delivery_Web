@@ -24,16 +24,24 @@
                 <a href="/products"><i class="fa-solid fa-utensils"></i> Menu</a>
                 <a href="/location"><i class="fa-solid fa-location-dot"></i> Locate Us</a>
                 <a href="/about"><i class="fa-solid fa-circle-info"></i> About</a>
+                
+                <!-- Show Cart when authenticated as User -->
+                <a sec:authorize="hasRole('USER')" href="/cart">
+                    <i class="fa-solid fa-cart-shopping"></i> Cart
+                </a>
+
+                <!-- Show Profile/Orders when authenticated as User -->
+                <a sec:authorize="hasRole('USER')" href="/order/history">
+                    <i class="fa-solid fa-user"></i> Profile
+                </a>
 
                 <!-- Show Sign In when NOT authenticated -->
-                <a th:if="${#authorization == null or !#authorization.expression('isAuthenticated()')}"
-                   href="/login" class="nav-cta">
+                <a sec:authorize="!isAuthenticated()" href="/login" class="nav-cta">
                     <i class="fa-solid fa-right-to-bracket"></i> Sign In
                 </a>
 
                 <!-- Show Logout when authenticated -->
-                <form th:if="${#authorization != null and #authorization.expression('isAuthenticated()')}"
-                      th:action="@{/logout}" method="post" style="display: inline; margin: 0;">
+                <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" style="display: inline; margin: 0;">
                     <button type="submit" class="nav-cta"
                             style="border: none; cursor: pointer; font-family: inherit; font-size: inherit;">
                         <i class="fa-solid fa-right-from-bracket"></i> Logout

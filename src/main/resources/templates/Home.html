@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -107,7 +107,8 @@
             <div class="promo-text">
                 <h2>Get 20% off your first order!</h2>
                 <p>Use code <strong>FOODFRENZY20</strong> at checkout</p>
-                <a href="/login" class="btn">Order Now <i class="fa-solid fa-arrow-right"></i></a>
+                <a sec:authorize="!isAuthenticated()" href="/login" class="btn">Order Now <i class="fa-solid fa-arrow-right"></i></a>
+                <a sec:authorize="isAuthenticated()" href="/products" class="btn">Order Now <i class="fa-solid fa-arrow-right"></i></a>
             </div>
         </div>
     </section>

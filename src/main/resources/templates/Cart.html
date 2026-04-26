@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodFrenzy — Your Cart</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/Images/logo.png}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/design-system.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <style>
+        .cart-page {
+            padding: 120px 0 60px;
+            min-height: 80vh;
+        }
+        .cart-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+        @media (max-width: 900px) {
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        .cart-items {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow-md);
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        .item-details h4 {
+            margin: 0 0 5px;
+            color: var(--text-dark);
+        }
+        .item-details p {
+            margin: 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        .item-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .quantity-control form {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .qty-btn, .remove-btn {
+            background: none;
+            border: 1px solid var(--gray-300);
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            color: var(--text-dark);
+            transition: all 0.2s;
+        }
+        .qty-btn:hover {
+            background: var(--gray-100);
+        }
+        .remove-btn {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        .remove-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        .cart-summary {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow-md);
+            height: fit-content;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+        .summary-total {
+            border-top: 2px dashed var(--gray-300);
+            padding-top: 15px;
+            margin-top: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .btn-checkout {
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        .btn-checkout:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .empty-cart {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <nav th:replace="~{Navigation::navbar()}"></nav>
+
+    <main class="cart-page container">
+        <h2 style="margin-bottom: 30px;">Your Cart</h2>
+        
+        <div class="cart-container" th:if="${not #lists.isEmpty(cartItems)}">
+            <!-- Cart Items -->
+            <div class="cart-items">
+                <div class="cart-item" th:each="item : ${cartItems}">
+                    <div class="item-details">
+                        <h4 th:text="${item.product.pname}">Product Name</h4>
+                        <p>₹<span th:text="${item.product.pprice}"></span> × <span th:text="${item.quantity}"></span></p>
+                    </div>
+                    <div class="item-actions">
+                        <div class="quantity-control">
+                            <form th:action="@{/cart/update/{id}(id=${item.cartItemId})}" method="post">
+                                <input type="number" name="quantity" th:value="${item.quantity}" min="1" max="20" style="width: 60px; padding: 5px; border: 1px solid var(--gray-300); border-radius: 4px;">
+                                <button type="submit" class="qty-btn">Update</button>
+                            </form>
+                        </div>
+                        <div style="font-weight: 600;">₹<span th:text="${item.subtotal}"></span></div>
+                        <a th:href="@{/cart/remove/{id}(id=${item.cartItemId})}" class="remove-btn" title="Remove Item"><i class="fa-solid fa-trash"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="cart-summary">
+                <h3>Order Summary</h3>
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span>₹<span th:text="${cartTotal}"></span></span>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery Fee</span>
+                    <span>₹50.0</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total</span>
+                    <span>₹<span th:text="${cartTotal + 50.0}"></span></span>
+                </div>
+                <form th:action="@{/order/place}" method="post">
+                    <button type="submit" class="btn-checkout">Place Order</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="cart-items empty-cart" th:if="${#lists.isEmpty(cartItems)}">
+            <i class="fa-solid fa-cart-arrow-down" style="font-size: 3rem; color: var(--gray-400); margin-bottom: 15px;"></i>
+            <h3>Your cart is empty</h3>
+            <p>Looks like you haven't added any delicious food yet.</p>
+            <a href="/products" class="btn-checkout" style="display: inline-block; width: auto; padding: 10px 30px; text-decoration: none;">Browse Menu</a>
+        </div>
+    </main>
+
+    <script th:src="@{/js/app.js}"></script>
+</body>
+</html>

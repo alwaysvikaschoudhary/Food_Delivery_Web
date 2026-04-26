@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodFrenzy — Profile & Orders</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/Images/logo.png}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/design-system.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <style>
+        .profile-page {
+            padding: 120px 0 60px;
+            min-height: 80vh;
+        }
+        .profile-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+        @media (max-width: 900px) {
+            .profile-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        .profile-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow-md);
+            height: fit-content;
+            text-align: center;
+        }
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 20px;
+        }
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+        .profile-email {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+        .orders-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow-md);
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        .order-details h4 {
+            margin: 0 0 5px;
+            color: var(--text-dark);
+        }
+        .order-details p {
+            margin: 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        .order-status {
+            padding: 5px 12px;
+            background: #E8F5E9;
+            color: #2E7D32;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <nav th:replace="~{Navigation::navbar()}"></nav>
+
+    <main class="profile-page container">
+        <h2 style="margin-bottom: 30px;">My Profile</h2>
+        
+        <div class="profile-container">
+            <!-- Profile Info -->
+            <div class="profile-card">
+                <div class="profile-avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="profile-name" th:text="${name}">User Name</div>
+                <div class="profile-email">Customer</div>
+            </div>
+
+            <!-- Order History -->
+            <div class="orders-card">
+                <h3 style="margin-bottom: 20px; border-bottom: 2px solid var(--gray-200); padding-bottom: 10px;">Order History</h3>
+                
+                <div th:if="${not #lists.isEmpty(orders)}">
+                    <div class="order-item" th:each="order : ${orders}">
+                        <div class="order-details">
+                            <h4 th:text="${order.oName}">Product Name</h4>
+                            <p>Quantity: <span th:text="${order.oQuantity}"></span> | Total: ₹<span th:text="${order.totalAmmout}"></span></p>
+                            <p style="font-size: 0.8rem; margin-top: 5px;" th:text="${#dates.format(order.orderDate, 'dd-MMM-yyyy HH:mm')}">Date</p>
+                        </div>
+                        <div>
+                            <span class="order-status">Confirmed</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="empty-state" th:if="${#lists.isEmpty(orders)}">
+                    <i class="fa-solid fa-receipt" style="font-size: 3rem; color: var(--gray-400); margin-bottom: 15px;"></i>
+                    <h3>No orders yet</h3>
+                    <p>When you place an order, it will appear here.</p>
+                    <a href="/products" class="btn" style="display: inline-block; margin-top: 15px;">Browse Menu</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script th:src="@{/js/app.js}"></script>
+</body>
+</html>

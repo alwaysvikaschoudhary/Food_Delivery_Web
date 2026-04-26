@@ -73,11 +73,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // CSRF is enabled by default — Thymeleaf handles tokens automatically via th:action
+            // CSRF is enabled by default — Thymeleaf handles tokens via th:action
 
             // Authorization rules
             .authorizeHttpRequests(auth -> auth
-                // Public pages — accessible to everyone
+                // Public pages
                 .requestMatchers(
                     "/", "/home", "/products", "/about", "/location",
                     "/login", "/register",
@@ -97,8 +97,10 @@ public class SecurityConfig {
                     "/deleteAdmin/**", "/deleteProduct/**", "/deleteUser/**"
                 ).hasRole("ADMIN")
 
-                // User-only pages
+                // User-only pages (Cart + Order + legacy product flow)
                 .requestMatchers(
+                    "/cart", "/cart/**",
+                    "/order/**",
                     "/product/search", "/product/order", "/product/back"
                 ).hasRole("USER")
 
@@ -106,13 +108,13 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
 
-            // Custom login page (our existing Login.html)
+            // Custom login page
             .formLogin(form -> form
                 .loginPage("/login")
                 .permitAll()
             )
 
-            // Logout configuration
+            // Logout
             .logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout")

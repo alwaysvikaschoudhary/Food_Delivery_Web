@@ -27,6 +27,11 @@
                     <i class="fa-solid fa-clock"></i> Your session has expired. Please login again.
                 </div>
             </div>
+            <div th:if="${param.registered}" style="grid-column: 1 / -1; text-align: center; margin-bottom: -16px;">
+                <div class="badge badge-success" style="font-size: 0.9rem; padding: 10px 24px;">
+                    <i class="fa-solid fa-check-circle"></i> Account created successfully. You can now log in.
+                </div>
+            </div>
 
             <!-- Admin Login Card -->
             <div class="login-card animate-fadeInUp">

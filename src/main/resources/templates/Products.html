@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,208 +24,47 @@
     <!-- Products Grid -->
     <main class="container">
         <div class="products-grid stagger">
-            <!-- Chicken Biryani -->
-            <div class="product-card">
+            <div class="product-card" th:each="p : ${products}">
                 <div class="card-img">
-                    <img th:src="@{/Images/biryani/Biryani_of_Hyderabadi.jpg}" alt="Chicken Biryani">
-                    <button class="card-fav"><i class="fa-regular fa-heart"></i></button>
-                </div>
-                <div class="card-body">
-                    <div class="card-rating"><i class="fa-solid fa-star"></i> 4.8</div>
-                    <h3 class="card-name">Chicken Biryani</h3>
-                    <p class="card-desc">Hyderabadi-style dum biryani with tender chicken</p>
-                    <div class="card-footer">
-                        <div class="card-price">₹410 <span>/ plate</span></div>
-                        <a href="/login" class="btn-add">Order Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Paneer Butter -->
-            <div class="product-card">
-                <div class="card-img">
-                    <img th:src="@{/Images/paneer/paneer-butter-masala.jpg}" alt="Paneer Butter Masala">
-                    <button class="card-fav"><i class="fa-regular fa-heart"></i></button>
-                </div>
-                <div class="card-body">
-                    <div class="card-rating"><i class="fa-solid fa-star"></i> 4.7</div>
-                    <h3 class="card-name">Paneer Butter Masala</h3>
-                    <p class="card-desc">Rich creamy gravy with soft cottage cheese cubes</p>
-                    <div class="card-footer">
-                        <div class="card-price">₹290 <span>/ plate</span></div>
-                        <a href="/login" class="btn-add">Order Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Afgani Chicken -->
-            <div class="product-card">
-                <div class="card-img">
-                    <img th:src="@{/Images/chicken/Afgani-chicken-curry.jpg}" alt="Afgani Chicken">
+                    <img th:src="@{'/Images/' + (${p.pname == 'Chicken Biryani' ? 'biryani/Biryani_of_Hyderabadi.jpg' : 
+                                   p.pname == 'Paneer Butter Masala' ? 'paneer/paneer-butter-masala.jpg' : 
+                                   p.pname == 'Afgani Chicken' ? 'chicken/Afgani-chicken-curry.jpg' : 
+                                   p.pname == 'Butter Chicken' ? 'chicken/butter-chicken.jpg' : 
+                                   p.pname == 'Laccha Paratha' ? 'north-india-food/Laccha-Paratha.jpg' : 
+                                   p.pname == 'Matka Chicken' ? 'chicken/Matka-Chicken.jpg' : 
+                                   p.pname == 'Chicken Tikka' ? 'chicken/Tandoori-chicken-tikka.jpg' : 
+                                   p.pname == 'Honey Chilli Potato' ? 'north-india-food/Honey-Chilli-Potato.jpg' : 
+                                   p.pname == 'Chola Bhatura' ? 'north-india-food/chola-bhatura.jpg' : 
+                                   p.pname == 'Gulab Jamun' ? 'north-india-food/Gulab Jamun.jpg' : 
+                                   p.pname == 'Veg Chowmein' ? 'chinese/chowmein.jpg' : 
+                                   p.pname == 'Paneer Do Pyaza' ? 'paneer/paneer-do-pyaza.jpg' : 'logo.png'})}" 
+                         th:alt="${p.pname}">
                     <button class="card-fav"><i class="fa-regular fa-heart"></i></button>
                 </div>
                 <div class="card-body">
                     <div class="card-rating"><i class="fa-solid fa-star"></i> 4.5</div>
-                    <h3 class="card-name">Afgani Chicken</h3>
-                    <p class="card-desc">Creamy cashew-based curry with tender chicken</p>
+                    <h3 class="card-name" th:text="${p.pname}">Product Name</h3>
+                    <p class="card-desc" th:text="${p.pdescription}">Description</p>
                     <div class="card-footer">
-                        <div class="card-price">₹410 <span>/ plate</span></div>
-                        <a href="/login" class="btn-add">Order Now</a>
+                        <div class="card-price">₹<span th:text="${p.pprice}"></span> <span>/ plate</span></div>
+                        
+                        <!-- Add to Cart Form (Logged in User) -->
+                        <div sec:authorize="hasRole('USER')">
+                            <form th:action="@{/cart/add}" method="post" style="margin: 0;">
+                                <input type="hidden" name="productId" th:value="${p.pid}">
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit" class="btn-add" style="border: none; cursor: pointer; width: 100%;">Add to Cart</button>
+                            </form>
+                        </div>
+                        <!-- Order Now Link (Guest) -->
+                        <div sec:authorize="!hasRole('USER')">
+                            <a href="/login" class="btn-add">Order Now</a>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Butter Chicken -->
-            <div class="product-card">
-                <div class="card-img">
-                    <img th:src="@{/Images/chicken/butter-chicken.jpg}" alt="Butter Chicken">
-                    <button class="card-fav"><i class="fa-regular fa-heart"></i></button>
-                </div>
-                <div class="card-body">
-                    <div class="card-rating"><i class="fa-solid fa-star"></i> 4.9</div>
-                    <h3 class="card-name">Butter Chicken</h3>
-                    <p class="card-desc">Classic creamy tomato-based chicken curry</p>
-                    <div class="card-footer">
-                        <div class="card-price">₹380 <span>/ plate</span></div>
-                        <a href="/login" class="btn-add">Order Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Laccha Paratha -->
-            <div class="product-card">
-                <div class="card-img">
-                    <img th:src="@{/Images/north-india-food/Laccha-Paratha.jpg}" alt="Laccha Paratha">
-                    <button class="card-fav"><i class="fa-regular fa-heart"></i></button>
-                </div>
-                <div class="card-body">
-                    <div class="card-rating"><i class="fa-solid fa-star"></i> 4.6</div>
-                    <h3 class="card-name">Laccha Paratha</h3>
-                    <p class="card-desc">Flaky layered Indian bread, perfectly crispy</p>
-                    <div class="card-footer">
-                        <div class="card-price">₹30 <span>/ piece</span></div>
-                        <a href="/login" class="btn-add">Order Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Matka Chicken -->
-            <div class="product-card">
-                <div class="card-img">
-                    <img th:src="@{/Images/chicken/Matka-Chicken.jpg}" alt="Matka Chicken">
-                    <button class="card-fav"><i class="fa-regular fa-heart"></i></button>
-                </div>
-                <div class="card-body">
-                    <div class="card-rating"><i class="fa-solid fa-star"></i> 4.8</div>
-                    <h3 class="card-name">Matka Chicken</h3>
-                    <p class="card-desc">Slow-cooked chicken in a traditional clay pot</p>
-                    <div class="card-footer">
-                        <div class="card-price">₹510 <span>/ plate</span></div>
-                        <a href="/login" class="btn-add">Order Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Chicken Tikka -->
-            <div class="product-card">
-                <div class="card-img">
-                    <img th:src="@{/Images/chicken/Tandoori-chicken-tikka.jpg}" alt="Chicken Tikka">
-                    <button class="card-fav"><i class="fa-regular fa-heart"></i></button>
-                </div>
-                <div class="card-body">
-                    <div class="card-rating"><i class="fa-solid fa-star"></i> 4.4</div>
-                    <h3 class="card-name">Chicken Tikka</h3>
-                    <p class="card-desc">Tandoori-grilled marinated chicken pieces</p>
-                    <div class="card-footer">
-                        <div class="card-price">₹310 <span>/ plate</span></div>
-                        <a href="/login" class="btn-add">Order Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Chilli Potato -->
-            <div class="product-card">
-                <div class="card-img">
-                    <img th:src="@{/Images/north-india-food/Honey-Chilli-Potato.jpg}" alt="Chilli Potato">
-                    <button class="card-fav"><i class="fa-regular fa-heart"></i></button>
-                </div>
-                <div class="card-body">
-                    <div class="card-rating"><i class="fa-solid fa-star"></i> 4.5</div>
-                    <h3 class="card-name">Honey Chilli Potato</h3>
-                    <p class="card-desc">Crispy potatoes tossed in sweet chilli sauce</p>
-                    <div class="card-footer">
-                        <div class="card-price">₹150 <span>/ plate</span></div>
-                        <a href="/login" class="btn-add">Order Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Chola Bhatura -->
-            <div class="product-card">
-                <div class="card-img">
-                    <img th:src="@{/Images/north-india-food/chola-bhatura.jpg}" alt="Chola Bhatura">
-                    <button class="card-fav"><i class="fa-regular fa-heart"></i></button>
-                </div>
-                <div class="card-body">
-                    <div class="card-rating"><i class="fa-solid fa-star"></i> 4.6</div>
-                    <h3 class="card-name">Chola Bhatura</h3>
-                    <p class="card-desc">Spicy chickpea curry with fluffy fried bread</p>
-                    <div class="card-footer">
-                        <div class="card-price">₹180 <span>/ plate</span></div>
-                        <a href="/login" class="btn-add">Order Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Gulab Jamun -->
-            <div class="product-card">
-                <div class="card-img">
-                    <img th:src="@{/Images/north-india-food/Gulab Jamun.jpg}" alt="Gulab Jamun">
-                    <button class="card-fav"><i class="fa-regular fa-heart"></i></button>
-                </div>
-                <div class="card-body">
-                    <div class="card-rating"><i class="fa-solid fa-star"></i> 4.3</div>
-                    <h3 class="card-name">Gulab Jamun</h3>
-                    <p class="card-desc">Sweet dumplings soaked in rose-flavored syrup</p>
-                    <div class="card-footer">
-                        <div class="card-price">₹50 <span>/ 2 pcs</span></div>
-                        <a href="/login" class="btn-add">Order Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Chowmein -->
-            <div class="product-card">
-                <div class="card-img">
-                    <img th:src="@{/Images/chinese/chowmein.jpg}" alt="Chowmein">
-                    <button class="card-fav"><i class="fa-regular fa-heart"></i></button>
-                </div>
-                <div class="card-body">
-                    <div class="card-rating"><i class="fa-solid fa-star"></i> 4.5</div>
-                    <h3 class="card-name">Veg Chowmein</h3>
-                    <p class="card-desc">Stir-fried noodles with fresh vegetables</p>
-                    <div class="card-footer">
-                        <div class="card-price">₹150 <span>/ plate</span></div>
-                        <a href="/login" class="btn-add">Order Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Paneer Do Pyaza -->
-            <div class="product-card">
-                <div class="card-img">
-                    <img th:src="@{/Images/paneer/paneer-do-pyaza.jpg}" alt="Paneer Do Pyaza">
-                    <button class="card-fav"><i class="fa-regular fa-heart"></i></button>
-                </div>
-                <div class="card-body">
-                    <div class="card-rating"><i class="fa-solid fa-star"></i> 4.7</div>
-                    <h3 class="card-name">Paneer Do Pyaza</h3>
-                    <p class="card-desc">Paneer cooked with double the onions in rich gravy</p>
-                    <div class="card-footer">
-                        <div class="card-price">₹270 <span>/ plate</span></div>
-                        <a href="/login" class="btn-add">Order Now</a>
-                    </div>
-                </div>
+            <div th:if="${#lists.isEmpty(products)}" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                <h3>No products available at the moment.</h3>
             </div>
         </div>
     </main>
@@ -248,8 +87,8 @@
 
     <script th:src="@{/js/app.js}"></script>
     <script>
-        // Buy button alert for non-logged-in users
-        document.querySelectorAll('.btn-add').forEach(btn => {
+        // Buy button alert for non-logged-in users (only targeting links, not form buttons)
+        document.querySelectorAll('a.btn-add').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
                 if (confirm('Please Sign In to order. Go to login page?')) {
