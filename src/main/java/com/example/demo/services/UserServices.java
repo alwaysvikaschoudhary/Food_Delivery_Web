@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.entities.Admin;
 import com.example.demo.entities.User;
 import com.example.demo.repositories.UserRepository;
 
@@ -15,6 +15,9 @@ public class UserServices
 {
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	public List<User> getAllUser()
 	{
@@ -28,16 +31,17 @@ public class UserServices
 		User user = optional.get();
 		return user;
 	}
+
 	public User getUserByEmail(String email)
 	{
-	 User user=	this.userRepository.findUserByUemail(email);
-	 return user;
+		User user = this.userRepository.findUserByUemail(email);
+		return user;
 	}
 
-	public void updateUser(User user,int id)
+	public void updateUser(User user, int id)
 	{
 		user.setU_id(id);
-		 this.userRepository.save(user);
+		this.userRepository.save(user);
 	}
 
 	public void deleteUser(int id)
@@ -45,24 +49,22 @@ public class UserServices
 		this.userRepository.deleteById(id);
 	}
 
+	/**
+	 * Adds a new user with BCrypt-encoded password.
+	 */
 	public void addUser(User user)
 	{
-	this.userRepository.save(user);
+		// Encode the password before saving
+		user.setUpassword(passwordEncoder.encode(user.getUpassword()));
+		this.userRepository.save(user);
 	}
-	
-	public boolean validateLoginCredentials(String email,String password)
+
+	public boolean validateLoginCredentials(String email, String password)
 	{
-		List<User> users = (List<User>) this.userRepository.findAll();
-		for(User u:users)
-		{
-		if(u!=null && u.getUpassword().equals(password) && u.getUemail().equals(email))
-		{
+		User user = this.userRepository.findUserByUemail(email);
+		if (user != null && passwordEncoder.matches(password, user.getUpassword())) {
 			return true;
-		}
 		}
 		return false;
 	}
-	
-
-
 }

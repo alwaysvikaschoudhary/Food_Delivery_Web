@@ -15,6 +15,19 @@
 
     <div class="login-page">
         <div class="login-container">
+
+            <!-- Global Messages -->
+            <div th:if="${param.logout}" style="grid-column: 1 / -1; text-align: center; margin-bottom: -16px;">
+                <div class="badge badge-success" style="font-size: 0.9rem; padding: 10px 24px;">
+                    <i class="fa-solid fa-check-circle"></i> You have been logged out successfully.
+                </div>
+            </div>
+            <div th:if="${param.expired}" style="grid-column: 1 / -1; text-align: center; margin-bottom: -16px;">
+                <div class="badge badge-warning" style="font-size: 0.9rem; padding: 10px 24px;">
+                    <i class="fa-solid fa-clock"></i> Your session has expired. Please login again.
+                </div>
+            </div>
+
             <!-- Admin Login Card -->
             <div class="login-card animate-fadeInUp">
                 <div class="card-icon admin"><i class="fa-solid fa-shield-halved"></i></div>
@@ -29,7 +42,7 @@
                         <label class="form-label">Password</label>
                         <input type="password" name="password" placeholder="••••••••" class="form-input" required>
                     </div>
-                    <small class="error-msg" th:text="${error}"></small>
+                    <small class="error-msg" th:if="${error}" th:text="${error}"></small>
                     <button type="submit" class="btn-login">
                         <i class="fa-solid fa-right-to-bracket"></i> Sign In as Admin
                     </button>
@@ -50,13 +63,13 @@
                         <label class="form-label">Password</label>
                         <input type="password" name="userPassword" placeholder="••••••••" class="form-input" required maxlength="8" minlength="4">
                     </div>
-                    <small class="error-msg" th:text="${error2}"></small>
+                    <small class="error-msg" th:if="${error2}" th:text="${error2}"></small>
                     <button type="submit" class="btn-login">
                         <i class="fa-solid fa-right-to-bracket"></i> Sign In
                     </button>
                 </form>
                 <div class="login-footer">
-                    Don't have an account? <a href="register.html">Register here</a>
+                    Don't have an account? <a href="/register">Register here</a>
                 </div>
             </div>
         </div>
