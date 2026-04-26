@@ -17,7 +17,11 @@
                 <h2>Update Product</h2>
                 <p>Edit the product details below</p>
             </div>
-            <form th:action="@{'/updatingProduct/'+${product.pid}}" th:object="${product}">
+            <div th:if="${errorMessage}" class="alert alert-danger" style="background-color: #FEE2E2; color: #B91C1C; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
+                <strong>Error!</strong> <span th:text="${errorMessage}"></span>
+            </div>
+            
+            <form th:action="@{'/updatingProduct/'+${product.pid}}" method="post" enctype="multipart/form-data" th:object="${product}">
                 <input type="hidden" th:value="${product.pid}">
                 <div class="form-group">
                     <label class="form-label">Product Name</label>
@@ -30,6 +34,10 @@
                 <div class="form-group">
                     <label class="form-label">Description</label>
                     <textarea name="pdescription" class="form-input" th:text="${product.pdescription}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Product Image (Optional)</label>
+                    <input type="file" name="image" class="form-input" accept="image/*">
                 </div>
                 <button type="submit" class="btn-submit"><i class="fa-solid fa-check"></i> Update Product</button>
             </form>

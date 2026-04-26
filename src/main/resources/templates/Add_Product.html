@@ -17,7 +17,10 @@
                 <h2>Add New Product</h2>
                 <p>Add a new item to the menu</p>
             </div>
-            <form th:action="@{/addingProduct}" method="post">
+            <div th:if="${errorMessage}" class="alert alert-danger" style="background-color: #FEE2E2; color: #B91C1C; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
+                <strong>Error!</strong> <span th:text="${errorMessage}"></span>
+            </div>
+            <form th:action="@{/products/add}" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label class="form-label">Product Name</label>
                     <input type="text" name="pname" placeholder="e.g. Chicken Biryani" class="form-input" required>
@@ -29,6 +32,10 @@
                 <div class="form-group">
                     <label class="form-label">Description</label>
                     <textarea name="pdescription" placeholder="Brief description of the product..." class="form-input"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Product Image (Optional)</label>
+                    <input type="file" name="image" class="form-input" accept="image/*">
                 </div>
                 <button type="submit" class="btn-submit"><i class="fa-solid fa-plus"></i> Add Product</button>
             </form>

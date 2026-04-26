@@ -26,7 +26,7 @@
         <div class="products-grid stagger">
             <div class="product-card" th:each="p : ${products}">
                 <div class="card-img">
-                    <img th:src="@{'/Images/' + (${p.pname == 'Chicken Biryani' ? 'biryani/Biryani_of_Hyderabadi.jpg' : 
+                    <img th:src="${!#strings.isEmpty(p.imageUrl)} ? ${p.imageUrl} : @{'/Images/' + (${p.pname == 'Chicken Biryani' ? 'biryani/Biryani_of_Hyderabadi.jpg' : 
                                    p.pname == 'Paneer Butter Masala' ? 'paneer/paneer-butter-masala.jpg' : 
                                    p.pname == 'Afgani Chicken' ? 'chicken/Afgani-chicken-curry.jpg' : 
                                    p.pname == 'Butter Chicken' ? 'chicken/butter-chicken.jpg' : 

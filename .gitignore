@@ -4,6 +4,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Ignore environment variables
+.env
+.gitignore
+
 ### STS ###
 .apt_generated
 .classpath

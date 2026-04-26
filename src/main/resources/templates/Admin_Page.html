@@ -104,6 +104,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Image</th>
                             <th>Name</th>
                             <th>Price (₹)</th>
                             <th>Actions</th>
@@ -112,6 +113,11 @@
                     <tbody>
                         <tr th:each="product : ${products}">
                             <td th:text="${product.pid}"></td>
+                            <td>
+                                <img th:if="${!#strings.isEmpty(product.imageUrl)}" 
+                                     th:src="${product.imageUrl}" alt="Product Image" style="width: 40px; height: 40px; border-radius: 4px; object-fit: cover;">
+                                <span th:if="${#strings.isEmpty(product.imageUrl)}" style="color: #aaa; font-size: 0.8rem;">No Image</span>
+                            </td>
                             <td th:text="${product.pname}"></td>
                             <td th:text="${product.pprice}"></td>
                             <td>

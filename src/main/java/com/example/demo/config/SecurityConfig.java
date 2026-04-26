@@ -90,7 +90,7 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/admin/**",
                     "/addAdmin", "/addProduct", "/addUser",
-                    "/addingAdmin", "/addingProduct", "/addingUser",
+                    "/addingAdmin", "/products/add", "/addingUser",
                     "/updateAdmin/**", "/updatingAdmin/**",
                     "/updateProduct/**", "/updatingProduct/**",
                     "/updateUser/**", "/updatingUser/**",
