@@ -1,119 +1,165 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-	<meta charset="UTF-8" />
-	<title>ADMIN PAGE :</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-	<link rel="stylesheet" href="" th:href="@{/css/Admin_page.css}" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodFrenzy — Admin Dashboard</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/Images/logo.png}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/design-system.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/Admin_Page.css}">
 </head>
-
 <body>
-	<a class="back" href="/login">Back</a>
-	<center>
-		<section class="tables">
-			<div class="admins">
-				<h2>Admins :</h2>
-				<table>
-					<tr>
-						<th>Admin_Id</th>
-						<th>Admin_Name</th>
-						<th>Admin_Email</th>
-						<th>Admin_Number</th>
-						<th>Actions</th>
-					</tr>
-					<tr th:each="admin :${admins}">
-						<td th:text="${admin.adminId}"></td>
-						<td th:text="${admin.adminName}"></td>
-						<td th:text="${admin.adminEmail}"></td>
-						<td th:text="${admin.adminNumber}"></td>
-						<td><a style="color: blue;" href="" th:href="@{'/updateAdmin/'+${admin.adminId}}"><i
-									class="fa-solid fa-pen"></i></a><span>&nbsp;</span>
-							<a style="color: red;" href="" th:href="@{'/deleteAdmin/'+${admin.adminId}}"><i
-									class="fa-solid fa-trash"></i></a>
-						</td>
-					</tr>
-				</table>
-				<a href="" class="btns" th:href="@{/addAdmin}">Add_Admin</a>
-			</div>
+    <nav th:replace="~{Navigation::navbar()}"></nav>
 
-			<div class="users" th:object="${userObject}">
-				<h2>Users :</h2>
-				<table>
-					<tr>
-						<th>User_Id</th>
-						<th>User_Name</th>
-						<th>User_Email</th>
-						<th>User_Number</th>
-						<th>Actions</th>
-					</tr>
-					<tr th:each="user :${users}">
-						<td th:text="${user.u_id}"></td>
-						<td th:text="${user.uname}"></td>
-						<td th:text="${user.uemail}"></td>
-						<td th:text="${user.unumber}"></td>
-						<td><a style="color: blue;" href="" th:href="@{'/updateUser/'+${user.u_id}}"><i
-									class="fa-solid fa-pen"></i></a><span>&nbsp;</span>
-							<a style="color: red;" href="" th:href="@{'/deleteUser/'+${user.u_id}}"> <i
-									class="fa-solid fa-trash"></i></a>
-						</td>
-					</tr>
-				</table>
-				<a href="" class="btns" th:href="@{'/addUser'}">Add_User</a>
-			</div>
+    <div class="admin-page">
+        <div class="container">
+            <!-- Header -->
+            <div class="admin-header">
+                <div>
+                    <a href="/login" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Login</a>
+                    <h1>Admin Dashboard</h1>
+                </div>
+                <div class="admin-badge"><i class="fa-solid fa-shield-halved"></i> Admin Panel</div>
+            </div>
 
+            <!-- Admins Section -->
+            <div class="admin-section animate-fadeInUp">
+                <div class="admin-section-header">
+                    <h2><i class="fa-solid fa-user-tie"></i> Admins</h2>
+                    <a th:href="@{/addAdmin}" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Add Admin</a>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="admin : ${admins}">
+                            <td th:text="${admin.adminId}"></td>
+                            <td th:text="${admin.adminName}"></td>
+                            <td th:text="${admin.adminEmail}"></td>
+                            <td th:text="${admin.adminNumber}"></td>
+                            <td>
+                                <a th:href="@{'/updateAdmin/'+${admin.adminId}}" class="action-btn edit" title="Edit">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
+                                <a th:href="@{'/deleteAdmin/'+${admin.adminId}}" class="action-btn delete" title="Delete">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-			<div class="products">
-				<h2>Products :</h2>
-				<table>
-					<tr>
-						<th>Product_Id</th>
-						<th>Product_Name</th>
-						<th>Product_Price</th>
-						<th>Actions</th>
-					</tr>
-					<tr th:each="product :${products}">
-						<td th:text="${product.pid}"></td>
-						<td th:text="${product.pname}"></td>
-						<td th:text="${product.pprice}"></td>
-						<td><a style="color: blue;" href="" th:href="@{'/updateProduct/'+${product.pid}}"><i
-									class="fa-solid fa-pen"></i></a><span>&nbsp;</span>
-							<a style="color: red;" href="" th:href="@{'/deleteProduct/'+${product.pid}}"><i
-									class="fa-solid fa-trash"></i></a>
-						</td>
-					</tr>
-				</table>
-				<a href="" class="btns" th:href="@{'/addProduct'}">Add_Product</a>
-			</div>
-			
-			<div class="details">
-				<h2>Orders :</h2>
-			<table >
-				<tr>
-					<th>User_Name</th>
-					<th>User_Email</th>
-					<th>Product_Name</th>
-					<th>Product_Price</th>
-					<th>Product_Quantity</th>
-					<th>Total_Ammount</th>
-					<th>Date</th>
-				</tr>
-				<tr th:each="order :${orders}">
-					<td th:text="${order.user.uname}"></td>
-					<td th:text="${order.user.uemail}"></td>
-					<td th:text="${order.oName}"></td>
-					<td th:text="${order.oPrice}"></td>
-					<td th:text="${order.oQuantity}"></td>
-					<td th:text="${order.totalAmmout}"></td>
-					<td th:text="${order.orderDate}"></td>
+            <!-- Users Section -->
+            <div class="admin-section animate-fadeInUp" th:object="${userObject}">
+                <div class="admin-section-header">
+                    <h2><i class="fa-solid fa-users"></i> Users</h2>
+                    <a th:href="@{/addUser}" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Add User</a>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="user : ${users}">
+                            <td th:text="${user.u_id}"></td>
+                            <td th:text="${user.uname}"></td>
+                            <td th:text="${user.uemail}"></td>
+                            <td th:text="${user.unumber}"></td>
+                            <td>
+                                <a th:href="@{'/updateUser/'+${user.u_id}}" class="action-btn edit" title="Edit">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
+                                <a th:href="@{'/deleteUser/'+${user.u_id}}" class="action-btn delete" title="Delete">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-				</tr>
-			</table>
-		</div>
-		</section>
-	</center>
-	
+            <!-- Products Section -->
+            <div class="admin-section animate-fadeInUp">
+                <div class="admin-section-header">
+                    <h2><i class="fa-solid fa-box"></i> Products</h2>
+                    <a th:href="@{/addProduct}" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Add Product</a>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Price (₹)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="product : ${products}">
+                            <td th:text="${product.pid}"></td>
+                            <td th:text="${product.pname}"></td>
+                            <td th:text="${product.pprice}"></td>
+                            <td>
+                                <a th:href="@{'/updateProduct/'+${product.pid}}" class="action-btn edit" title="Edit">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
+                                <a th:href="@{'/deleteProduct/'+${product.pid}}" class="action-btn delete" title="Delete">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Orders Section -->
+            <div class="admin-section animate-fadeInUp">
+                <div class="admin-section-header">
+                    <h2><i class="fa-solid fa-receipt"></i> All Orders</h2>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Email</th>
+                            <th>Product</th>
+                            <th>Price (₹)</th>
+                            <th>Qty</th>
+                            <th>Total (₹)</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="order : ${orders}">
+                            <td th:text="${order.user.uname}"></td>
+                            <td th:text="${order.user.uemail}"></td>
+                            <td th:text="${order.oName}"></td>
+                            <td th:text="${order.oPrice}"></td>
+                            <td th:text="${order.oQuantity}"></td>
+                            <td><strong th:text="${order.totalAmmout}"></strong></td>
+                            <td th:text="${order.orderDate}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/app.js}"></script>
 </body>
-
 </html>

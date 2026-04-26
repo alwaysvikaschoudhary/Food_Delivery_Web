@@ -1,27 +1,39 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8" />
-	<title>Document</title>
-	<link rel="stylesheet" href="" th:href="@{/css/Update_Admin.css}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodFrenzy — Update Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/design-system.css}">
+    <link rel="stylesheet" th:href="@{/css/form-page.css}">
 </head>
 <body>
-		<a href="/services">Back to Services</a>
-	<div class="updateAdmin">
-				<h3 style="color: red;">UPDATE EXISTING ADMIN / PARTNER DETAILS</h3>
-		<form action="" th:action="@{'/updatingAdmin/'+${admin.adminId}}" th:object="${admin}">
-			Admin_Id :
-			<input type="hidden" name="adminId" th:value="${admin.adminId}" th:text="${admin.adminId}"/><br />
-			Admin_Name :
-			<input type="text"  name="adminName"    th:value="${admin.adminName}"/><br />
-			Admin_Number :
-			<input type="tel"  name="adminNumber" th:value="${admin.adminNumber}" pattern="[0-9]{10}"/> <br />
-			Admin_Email :
-			<input type="email" name="adminEmail" th:value="${admin.adminEmail}" /> <br />
-			
-			<button type="submit">Update_Admin</button>
-			
-		</form>
-	</div>
+    <div class="form-page">
+        <div class="form-page-card">
+            <a href="/admin/services" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+            <div class="form-header">
+                <div class="form-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+                <h2>Update Admin</h2>
+                <p>Edit the admin details below</p>
+            </div>
+            <form th:action="@{'/updatingAdmin/'+${admin.adminId}}" th:object="${admin}">
+                <input type="hidden" name="adminId" th:value="${admin.adminId}">
+                <div class="form-group">
+                    <label class="form-label">Admin Name</label>
+                    <input type="text" name="adminName" th:value="${admin.adminName}" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" name="adminEmail" th:value="${admin.adminEmail}" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" name="adminNumber" th:value="${admin.adminNumber}" pattern="[0-9]{10}" class="form-input">
+                </div>
+                <button type="submit" class="btn-submit"><i class="fa-solid fa-check"></i> Update Admin</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

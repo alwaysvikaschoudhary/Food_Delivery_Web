@@ -1,3 +1,147 @@
-body{
-	background-color: black;
+/* ===== BUY PRODUCT / USER DASHBOARD ===== */
+.dashboard-page {
+  padding-top: calc(var(--nav-height) + var(--space-xl));
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+/* Welcome header */
+.welcome-banner {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl) var(--space-2xl);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-2xl);
+  position: relative;
+  overflow: hidden;
+}
+.welcome-banner::before {
+  content: '';
+  position: absolute;
+  right: -60px; top: -60px;
+  width: 200px; height: 200px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+}
+.welcome-banner h2 { font-size: 1.5rem; font-weight: 700; }
+.welcome-banner p { opacity: 0.85; margin-top: 4px; }
+
+/* Search section */
+.search-section {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  margin-bottom: var(--space-xl);
+}
+.search-section h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: var(--space-md);
+  color: var(--text-primary);
+}
+.search-section .search-row {
+  display: flex;
+  gap: var(--space-md);
+}
+.search-section .search-row input {
+  flex: 1;
+  padding: 14px 20px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  background: var(--bg);
+  outline: none;
+  transition: all var(--duration) var(--ease);
+}
+.search-section .search-row input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-glow);
+}
+.search-section .search-row button {
+  padding: 14px 32px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--duration) var(--ease);
+}
+.search-section .search-row button:hover {
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-1px);
+}
+.search-msg { color: var(--accent); font-weight: 500; margin-top: var(--space-md); font-size: 0.9rem; }
+
+/* Product details card */
+.product-detail-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  margin-bottom: var(--space-xl);
+}
+.product-detail-card h3 { font-size: 1.1rem; margin-bottom: var(--space-lg); color: var(--text-primary); }
+.product-detail-card .detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+.product-detail-card .detail-item label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--space-xs);
+}
+.product-detail-card .detail-item input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  background: var(--bg);
+  outline: none;
+  transition: all var(--duration) var(--ease);
+}
+.product-detail-card .detail-item input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-glow);
+}
+.product-detail-card .detail-item input[readonly] {
+  background: var(--border-light);
+  color: var(--text-secondary);
+}
+
+/* Orders table section */
+.orders-section {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+}
+.orders-section h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: var(--space-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.orders-section h3 i { color: var(--primary); }
+
+@media (max-width: 768px) {
+  .welcome-banner { flex-direction: column; text-align: center; padding: var(--space-lg); }
+  .search-section .search-row { flex-direction: column; }
+  .product-detail-card .detail-grid { grid-template-columns: 1fr; }
 }

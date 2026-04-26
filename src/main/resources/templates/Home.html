@@ -1,30 +1,133 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.com">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8" />
-	<title>FoodFrenzy</title>
-	<link rel="icon" type="image/x-icon" href="./Images/logo.png">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-	<link rel="stylesheet" href="" th:href="@{/css/Navigation.css}" />
-	<link rel="stylesheet" href="" th:href="@{css/Home.css}" />
-	<style>
-		body{
-			background-image: url('./Images/istockphoto-1006271368-612x612.jpg'); 
-			 background-size: cover; 
-        
-    
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodFrenzy — Delicious Food, Delivered Fast</title>
+    <meta name="description" content="Order delicious food from the best restaurants near you. Fast delivery, great prices.">
+    <link rel="icon" type="image/x-icon" th:href="@{/Images/logo.png}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/design-system.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/Home.css}">
 </head>
-
 <body>
-	<nav th:replace="~{Navigation::navbar()}"></nav>
-	<div class="text">
-	<h1 >WELCOME TO OUR WEBSITE </h1>
-	<h3 >Where Quality Meets Innovation! <br /> Explore our wide range of products designed to enhance your life.</h3>
-	</div>
-	
-</body>
+    <nav th:replace="~{Navigation::navbar()}"></nav>
 
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text" style="padding-top: 70px;">
+                <div class="hero-badge">
+                    <i class="fa-solid fa-fire"></i> #1 Food Delivery App
+                </div>
+                <h1 class="hero-title">
+                    Craving Something <span class="highlight">Delicious?</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Discover amazing food from local restaurants. Fast delivery, fresh flavors, 
+                    and an experience you'll love — all at your fingertips.
+                </p>
+                <div class="hero-actions">
+                    <a href="/products" class="btn btn-primary btn-lg">
+                        <i class="fa-solid fa-utensils"></i> Explore Menu
+                    </a>
+                    <a href="/about" class="btn-ghost">
+                        <i class="fa-solid fa-play"></i> Learn More
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="stat-number" data-count="500" data-suffix="+">0</div>
+                        <div class="stat-label">Menu Items</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="stat-number" data-count="1200" data-suffix="+">0</div>
+                        <div class="stat-label">Happy Customers</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="stat-number" data-count="30" data-suffix=" min">0</div>
+                        <div class="stat-label">Avg. Delivery</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-img-wrapper">
+                    <img th:src="@{/Images/istockphoto-1006271368-612x612.jpg}" alt="Delicious Food">
+                </div>
+                <div class="hero-float-card top-right">
+                    <div class="float-icon orange"><i class="fa-solid fa-star"></i></div>
+                    <div class="float-text"><strong>4.9 Rating</strong><span>Loved by users</span></div>
+                </div>
+                <div class="hero-float-card bottom-left">
+                    <div class="float-icon green"><i class="fa-solid fa-truck-fast"></i></div>
+                    <div class="float-text"><strong>Free Delivery</strong><span>On first order</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section container">
+        <div class="section-header">
+            <h2 class="heading-lg">Browse by <span class="text-gradient">Category</span></h2>
+            <p>Find exactly what you're craving</p>
+        </div>
+        <div class="categories-grid stagger">
+            <a href="/products" class="category-card">
+                <span class="category-icon">🍗</span>
+                <span>Chicken</span>
+            </a>
+            <a href="/products" class="category-card">
+                <span class="category-icon">🍛</span>
+                <span>Biryani</span>
+            </a>
+            <a href="/products" class="category-card">
+                <span class="category-icon">🧀</span>
+                <span>Paneer</span>
+            </a>
+            <a href="/products" class="category-card">
+                <span class="category-icon">🥡</span>
+                <span>Chinese</span>
+            </a>
+            <a href="/products" class="category-card">
+                <span class="category-icon">🫓</span>
+                <span>North Indian</span>
+            </a>
+            <a href="/products" class="category-card">
+                <span class="category-icon">🥗</span>
+                <span>Vegetarian</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Promo Banner -->
+    <section class="container">
+        <div class="promo-banner observe">
+            <div class="promo-text">
+                <h2>Get 20% off your first order!</h2>
+                <p>Use code <strong>FOODFRENZY20</strong> at checkout</p>
+                <a href="/login" class="btn">Order Now <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-brand">🍽️ FoodFrenzy</div>
+                <div class="footer-links">
+                    <a href="/home">Home</a>
+                    <a href="/products">Menu</a>
+                    <a href="/about">About</a>
+                    <a href="/location">Contact</a>
+                </div>
+                <div class="footer-copy">© 2026 FoodFrenzy. Made with ❤️ — All Rights Reserved.</div>
+            </div>
+        </div>
+    </footer>
+
+    <script th:src="@{/js/app.js}"></script>
+</body>
 </html>

@@ -1,133 +1,94 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.com">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8" />
-	<title>Buy Product </title>
-	<link rel="stylesheet" href="" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodFrenzy — Order Food</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/Images/logo.png}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/design-system.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/BuyProduct.css}">
 </head>
-<style>
-	body {
-		background-image: url("https://images.pexels.com/photos/7219747/pexels-photo-7219747.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
-		 background-size: cover; 
-	}
-
-	* {
-		font-size: 16px;
-		font-family: sans-serif;
-	}
-
-	.searchInput {
-		margin-top: 30px;
-	}
-
-	.searchInput input {
-		padding: 15px;
-		width: 270px;
-	}
-
-	.searchInput button {
-		padding: 15px;
-		width: 100px;
-		background-color: red;
-	}
-
-	.details {
-		margin-top: 70px;
-	}
-
-	.details input,
-	.details button {
-		display: block;
-		padding: 5px;
-		font-size: 16px;
-		
-
-	}
-
-	a {
-		border: 1px solid black;
-		background-color: darkgoldenrod;
-		color: black;
-		text-decoration: none;
-		padding: 7px;
-		width: 50px;
-		position: fixed;
-	}
-	.details th{
-		background-color: dimgray;
-		font-family: sans-serif;
-		padding: 10px;
-		border: none;
-	
-	}
-	td{
-		text-align: center;
-		border-bottom: 1px solid lightslategrey;
-	}
-	.welcome marquee,.welcome span
-	{
-		
-		width: 50%;
-		font-size: 20px;
-		font-family: sans-serif;
-		color: lavender;
-	}
-	
-</style>
-
 <body>
-	<div class="welcome">
-			<marquee direction="right"  behaviour="slide" 
-			scrollamount="15" loop="1">Welcome Back <span  th:text="${name}"></span>
-			</marquee><br />
-	</div>
-	
-	<a href="/login">Back</a>
-	<center>
+    <nav th:replace="~{Navigation::navbar()}"></nav>
 
-		<form action="" th:action="@{/product/search}" method="post" class="searchInput">
-			<h1>Product Search :</h1>
-			<input type="text" name="productName" required placeholder="Please enter the Product Name....">
-			<button type="submit">SEARCH</button><br />
-			<smal style="color: red;" th:text="${message}"> </smal>
-		</form>
-		
-		<div th:if="${product!=null}" class="details">
-			<form action="" th:action="@{/product/order}" th:object="${product}" method="post">
-				ProductName :
-				<input type="text" value="" name="oName" th:value="${product.pname}" readonly /><br />
-				Product Price :
-				<input type="text" value="" name="oPrice" th:value="${product.pprice}" readonly /><br />
-				Quqntity :
-				<input type="number" placeholder="Minimun: 1KG" min="1" name="oQuantity" /><br />
+    <div class="dashboard-page">
+        <div class="container">
+            <!-- Back link -->
+            <a href="/login" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Login</a>
 
-				<button type="submit">Order_Now</button>
-			</form>
-		</div>
-		
-		<div th:if="${orders!=null}" class="details">
-			<h2>Your Orders :</h2>
-			<table >
-				<tr>
-	
-					<th>Product_Name</th>
-					<th>Product_Price</th>
-					<th>Product_Quantity</th>
-					<th>Total_Ammount</th>
-					<th>Date</th>
-				</tr>
-				<tr th:each="order :${orders}">
-					<td th:text="${order.oName}"></td>
-					<td th:text="${order.oPrice}"></td>
-					<td th:text="${order.oQuantity}"></td>
-					<td th:text="${order.totalAmmout}"></td>
-					<td th:text="${order.orderDate}"></td>
+            <!-- Welcome Banner -->
+            <div class="welcome-banner animate-fadeInUp">
+                <div>
+                    <h2>Welcome back, <span th:text="${name}">User</span>! 👋</h2>
+                    <p>Search for your favorite dishes and place an order.</p>
+                </div>
+            </div>
 
-				</tr>
-			</table>
-		</div>
-	</center>
+            <!-- Search Section -->
+            <div class="search-section animate-fadeInUp">
+                <h3><i class="fa-solid fa-magnifying-glass"></i> Search Products</h3>
+                <form th:action="@{/product/search}" method="post" class="search-row">
+                    <input type="text" name="productName" required placeholder="Enter product name..." class="form-input">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-search"></i> Search
+                    </button>
+                </form>
+                <p class="search-msg" th:text="${message}"></p>
+            </div>
+
+            <!-- Product Details (shown after search) -->
+            <div th:if="${product!=null}" class="product-detail-card animate-fadeInUp">
+                <h3><i class="fa-solid fa-box"></i> Product Found — Place Your Order</h3>
+                <form th:action="@{/product/order}" th:object="${product}" method="post">
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <label>Product Name</label>
+                            <input type="text" name="oName" th:value="${product.pname}" readonly>
+                        </div>
+                        <div class="detail-item">
+                            <label>Price (₹)</label>
+                            <input type="text" name="oPrice" th:value="${product.pprice}" readonly>
+                        </div>
+                        <div class="detail-item">
+                            <label>Quantity (KG)</label>
+                            <input type="number" name="oQuantity" placeholder="Min: 1" min="1" required class="form-input">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg w-full">
+                        <i class="fa-solid fa-cart-shopping"></i> Place Order
+                    </button>
+                </form>
+            </div>
+
+            <!-- Orders Table -->
+            <div th:if="${orders!=null}" class="orders-section animate-fadeInUp">
+                <h3><i class="fa-solid fa-receipt"></i> Your Orders</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price (₹)</th>
+                            <th>Qty</th>
+                            <th>Total (₹)</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="order : ${orders}">
+                            <td th:text="${order.oName}"></td>
+                            <td th:text="${order.oPrice}"></td>
+                            <td th:text="${order.oQuantity}"></td>
+                            <td><strong th:text="${order.totalAmmout}"></strong></td>
+                            <td th:text="${order.orderDate}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/app.js}"></script>
 </body>
-
 </html>

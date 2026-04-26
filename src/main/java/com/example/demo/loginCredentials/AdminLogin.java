@@ -1,12 +1,9 @@
 package com.example.demo.loginCredentials;
 
-public class AdminLogin
-{
+public class AdminLogin {
 	
 	private String email;
-	
 	private String password;
-	
 	public String getEmail() {
 		return email;
 	}
@@ -19,6 +16,7 @@ public class AdminLogin
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	@Override
 	public String toString() {
 		return "AdminLogin [name=" + email + ", password=" + password + "]";

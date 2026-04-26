@@ -14,25 +14,22 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "user")
-public class User 
-{
+@Table(name = "\"user\"")
+public class User {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int u_id;
-
 	private String uname;
 	private String uemail;
 	private String upassword;
 	private Long unumber;
 	
-@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
 	private List<Orders> orders;
 	
-	
 	public User() {
-
-}
+	}
 	public List<Orders> getOrders() {
 		return orders;
 	}
@@ -50,7 +47,6 @@ public class User
 	}
 	public void setUname(String uname) {
 		this.uname = uname;
-
 	}
 	public String getUemail() {
 		return uemail;
@@ -70,16 +66,16 @@ public class User
 	public void setUnumber(Long unumber) {
 		this.unumber = unumber;
 	}
+
 	@Override
 	public String toString() {
 		return "User [u_id=" + u_id + ", uname=" + uname + ", uemail=" + uemail + ", upassword=" + upassword
 				+ ", unumber=" + unumber + ", orders=" + orders + "]";
 	}
 	
-
-	 public User(String uemail, String upassword) {
-	        this.uemail = uemail;
-	        this.upassword = upassword;
-	    }
+	public User(String uemail, String upassword) {
+	    this.uemail = uemail;
+	    this.upassword = upassword;
+    }
 
 }

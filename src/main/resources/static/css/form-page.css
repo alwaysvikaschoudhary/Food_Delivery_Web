@@ -1,0 +1,90 @@
+/* ===== SHARED FORM PAGE (Add/Update Admin, User, Product) ===== */
+.form-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  padding: calc(var(--nav-height) + var(--space-xl)) var(--space-lg) var(--space-xl);
+}
+.form-page-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-light);
+  padding: var(--space-2xl);
+  width: 100%;
+  max-width: 520px;
+  animation: fadeInUp 0.5s var(--ease) forwards;
+}
+.form-page-card .form-header {
+  margin-bottom: var(--space-xl);
+}
+.form-page-card .form-header .form-icon {
+  width: 52px; height: 52px;
+  border-radius: var(--radius-md);
+  background: rgba(255,107,53,0.1);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: var(--space-md);
+}
+.form-page-card .form-header h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.form-page-card .form-header p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.form-page-card .form-group { margin-bottom: var(--space-lg); }
+.form-page-card .form-label {
+  display: block;
+  font-weight: 500;
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  margin-bottom: var(--space-sm);
+}
+.form-page-card .form-input {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  background: var(--bg);
+  outline: none;
+  transition: all var(--duration) var(--ease);
+}
+.form-page-card .form-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-glow);
+  background: #fff;
+}
+.form-page-card textarea.form-input { min-height: 80px; resize: vertical; }
+
+.form-page-card .btn-submit {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all var(--duration) var(--ease);
+  margin-top: var(--space-sm);
+}
+.form-page-card .btn-submit:hover {
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 480px) {
+  .form-page-card { padding: var(--space-xl); }
+}

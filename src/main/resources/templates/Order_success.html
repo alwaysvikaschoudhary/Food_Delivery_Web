@@ -1,47 +1,83 @@
 <!doctype html>
-<html lang="en" xmnls:th="http://www.thymeleaf.org">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8" />
-	<title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodFrenzy — Order Confirmed!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/design-system.css}">
+    <style>
+        .success-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #FAFAF7, #FFF7ED);
+            padding: var(--space-lg);
+        }
+        .success-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            padding: var(--space-3xl) var(--space-2xl);
+            text-align: center;
+            max-width: 480px;
+            width: 100%;
+            animation: fadeInUp 0.6s var(--ease) forwards;
+        }
+        .success-icon {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--success), #059669);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-xl);
+            animation: pulse 1.5s var(--ease) infinite;
+        }
+        .success-icon i { font-size: 2rem; color: #fff; }
+        .success-card h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+        .success-card p { color: var(--text-secondary); font-size: 1.05rem; margin-bottom: var(--space-xl); }
+        .amount-display {
+            background: linear-gradient(135deg, #FFF7ED, #FFEDD5);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+        .amount-display .label { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .amount-display .amount {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-top: 4px;
+        }
+        .success-actions { display: flex; gap: var(--space-md); justify-content: center; }
+        @media (max-width: 480px) {
+            .success-actions { flex-direction: column; }
+            .success-card { padding: var(--space-2xl) var(--space-lg); }
+        }
+    </style>
 </head>
-<style>
-	body{
-		background-color:navajowhite;
-		font-family: cursive;
-		font-size: 30px;
-		
-	}
-	.text{
-		position: relative;
-		left: 250px;
-		top: 200px;
-		text-align: center;
-		height: max-content;
-		width: max-content;
-	}
-	span,h4
-	{
-		color: green;
-	}
-	a{
-		border: 1px solid black;
-		text-decoration: none;
-		background-color: darkgreen;
-		color: aliceblue;
-		font-family: sans-serif;
-		padding: 5px;
-	}
-	
-</style>
-
 <body>
-		<a href="/product/back" >Back</a>
-	<div class="text">
-		<h4>Ordered SuccessFully... !!!</h4>
-		<h3 style="font-family: sans-serif;">Your purchased amount is : <span th:text="'₹ '+${amount}+'/-'"></span></h3>
-	</div>
-
+    <div class="success-page">
+        <div class="success-card">
+            <div class="success-icon"><i class="fa-solid fa-check"></i></div>
+            <h1>Order Confirmed! 🎉</h1>
+            <p>Your order has been placed successfully and is being prepared.</p>
+            <div class="amount-display">
+                <div class="label">Total Amount</div>
+                <div class="amount" th:text="'₹ '+${amount}+'/-'"></div>
+            </div>
+            <div class="success-actions">
+                <a href="/product/back" class="btn btn-primary"><i class="fa-solid fa-utensils"></i> Continue Ordering</a>
+                <a href="/home" class="btn btn-secondary"><i class="fa-solid fa-house"></i> Go Home</a>
+            </div>
+        </div>
+    </div>
 </body>
-
 </html>

@@ -1,51 +1,67 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<title>FoodFrenzy</title>
-	<link rel="icon" type="image/x-icon" href="./img/b.png">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-	<link rel="stylesheet" href="" th:href="@{/css/Navigation.css}" />
-	<link rel="stylesheet" href="" th:href="@{/css/Login.css}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodFrenzy — Sign In</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/Images/logo.png}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/design-system.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/Login.css}">
 </head>
-
 <body>
-	<nav th:replace="~{Navigation::navbar()}">
-	</nav>
-	<div class="LoginContainer">
-		<div class="admin">
-			<div class="content">
-				<strong style="font-size: 16px;margin-bottom: 0px;">BUSINESS</strong>
-				<h2>For <span style="color:green;">Admins</span></h2>
+    <nav th:replace="~{Navigation::navbar()}"></nav>
 
-				<form th:action="@{/adminLogin}" method="post">
-					<b>Email :</b>
-					<input type="email" name="email" placeholder="Enter email..." class="email"> <br />
-					<b>Password:</b>
-					<input type="password" name="password" placeholder="Enter password" class="password">
-					<small style="color: red;" th:text="${error}"></small><br />
-					<button type="submit" class="loginButton">Log in</button>
-				</form>
-			</div>
-		</div>
-		<div class="user">
-			<div class="content">
-				<h2> For <span style="color:green;">Users</span></h2>
-				<form th:action="@{/userLogin}" method="post" class="form">
-					<b>Email :</b>
-					<input type="email" name="userEmail" placeholder="Enter email"><br />
+    <div class="login-page">
+        <div class="login-container">
+            <!-- Admin Login Card -->
+            <div class="login-card animate-fadeInUp">
+                <div class="card-icon admin"><i class="fa-solid fa-shield-halved"></i></div>
+                <div class="card-label">Business Portal</div>
+                <h2>Admin <span>Login</span></h2>
+                <form th:action="@{/adminLogin}" method="post">
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" name="email" placeholder="admin@foodfrenzy.com" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" placeholder="••••••••" class="form-input" required>
+                    </div>
+                    <small class="error-msg" th:text="${error}"></small>
+                    <button type="submit" class="btn-login">
+                        <i class="fa-solid fa-right-to-bracket"></i> Sign In as Admin
+                    </button>
+                </form>
+            </div>
 
-					<b>Password:</b>
-					<input type="password" name="userPassword" placeholder="Enter password" required maxlength="8" minlength="4" class="userPassword"><br />
+            <!-- User Login Card -->
+            <div class="login-card animate-fadeInUp" style="animation-delay: 0.15s;">
+                <div class="card-icon user"><i class="fa-solid fa-user"></i></div>
+                <div class="card-label">Customer Portal</div>
+                <h2>User <span>Login</span></h2>
+                <form th:action="@{/userLogin}" method="post">
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" name="userEmail" placeholder="you@email.com" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="userPassword" placeholder="••••••••" class="form-input" required maxlength="8" minlength="4">
+                    </div>
+                    <small class="error-msg" th:text="${error2}"></small>
+                    <button type="submit" class="btn-login">
+                        <i class="fa-solid fa-right-to-bracket"></i> Sign In
+                    </button>
+                </form>
+                <div class="login-footer">
+                    Don't have an account? <a href="register.html">Register here</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-					<small style="color: red;" th:text="${error2}"></small><br />
-					<button type="submit" class="loginButton">Log in</button><br>
-
-					<p>I don't have an account? <a href="register.html" style="color: green;">Register Here</a></p>
-				</form>
-			</div>
-		</div>
-	</div>
+    <script th:src="@{/js/app.js}"></script>
 </body>
-
 </html>

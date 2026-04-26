@@ -1,26 +1,39 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8" />
-	<title>Admin : Update</title>
-		<link rel="stylesheet" href="" th:href="@{/css/Update_User.css}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodFrenzy — Update User</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/design-system.css}">
+    <link rel="stylesheet" th:href="@{/css/form-page.css}">
 </head>
 <body>
-	<a href="/services"> Back to Services</a>
-	<div class="updateUser">
-		<h3 style="color: red;"> UPDATE EXISTING USER/CUSTOMER </h3>
-		<form  action=""  th:action="@{'/updatingUser/'+${user.u_id}}"    th:object="${user}">
-			User_Id :
-			<input  type="hidden" name="uid" th:value="${user.u_id}" th:text="${user.u_id}"/><br />
-			User_Name :
-			<input type="text" name="uname" th:value="${user.uname}"/>
-			User_Emai :
-			<input type="email" name="uemail" th:value="${user.uemail}"  />
-			User_Number :
-			<input type="tel" name="unumber" th:value="${user.unumber}" pattern="[0-9]{10}"/>
-			
-		<button type="submit">Update_User</button>
-		</form>
-	</div>
+    <div class="form-page">
+        <div class="form-page-card">
+            <a href="/admin/services" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+            <div class="form-header">
+                <div class="form-icon"><i class="fa-solid fa-user-pen"></i></div>
+                <h2>Update Customer</h2>
+                <p>Edit the customer details below</p>
+            </div>
+            <form th:action="@{'/updatingUser/'+${user.u_id}}" th:object="${user}">
+                <input type="hidden" name="uid" th:value="${user.u_id}">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" name="uname" th:value="${user.uname}" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" name="uemail" th:value="${user.uemail}" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" name="unumber" th:value="${user.unumber}" pattern="[0-9]{10}" class="form-input">
+                </div>
+                <button type="submit" class="btn-submit"><i class="fa-solid fa-check"></i> Update Customer</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

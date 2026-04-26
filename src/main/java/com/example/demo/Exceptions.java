@@ -5,17 +5,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class Exceptions
-{
+public class Exceptions{
 
 	@ResponseStatus(value=HttpStatus.INTERNAL_SERVER_ERROR)
-
+	
 	@ExceptionHandler(value=Exception.class) 
-	public String handler()
-	{
+	public String handler() {
 		System.out.println("Exception Handled....!!!!");
 		return "exception"; 
 	}
-
 
 }

@@ -7,8 +7,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "product_table")
-public class Product
-{
+public class Product {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int pid;
@@ -40,12 +40,11 @@ public class Product
 	public void setPdescription(String pdescription) {
 		this.pdescription = pdescription;
 	}
+
 	@Override
 	public String toString() {
 		return "Product [pid=" + pid + ", pname=" + pname + ", pprice=" + pprice + ", pdescription=" + pdescription
 				+ "]";
 	}
-
-
 
 }

@@ -11,33 +11,28 @@ import com.example.demo.entities.User;
 import com.example.demo.services.UserServices;
 
 @Controller
-public class UserController
-{
+public class UserController {
+
 	@Autowired
 	private UserServices services;
 
 	@PostMapping("/addingUser")
-	public String  addUser(@ModelAttribute User user)
-	{
+	public String  addUser(@ModelAttribute User user) {
 		System.out.println(user);
 		this.services.addUser(user);
 		return "redirect:/admin/services";
 	}
 
 	@GetMapping("/updatingUser/{id}")
-	public String updateUser(@ModelAttribute User user, @PathVariable("id") int id)
-	{
+	public String updateUser(@ModelAttribute User user, @PathVariable("id") int id) {
 		this.services.updateUser(user, id);
 		return "redirect:/admin/services";
 	}
 
 	@GetMapping("/deleteUser/{id}")
-	public String deleteUser(@PathVariable("id" )int id)
-	{
+	public String deleteUser(@PathVariable("id" )int id) {
 		this.services.deleteUser(id);
 		return "redirect:/admin/services";
 	}
-	
-
 
 }
