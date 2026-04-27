@@ -42,55 +42,55 @@ FoodFrenzy is a comprehensive, full-stack food delivery and restaurant managemen
 
 ### 1. Home Page
 A welcoming landing page featuring our hero section, dynamic design, and quick access navigation links.
-![Home Page](screenshots/screenshot_1.png)
+![Home Page](Screenshots/screenshot_1.png)
 
 ### 2. User Registration
 The sign-up page where new customers can create an account securely before ordering.
-![User Registration](screenshots/screenshot_2.png)
+![User Registration](Screenshots/screenshot_2.png)
 
 ### 3. Login Portal
 A secure login screen for both customers and administrators to access their respective accounts.
-![Login Portal](screenshots/screenshot_3.png)
+![Login Portal](Screenshots/screenshot_3.png)
 
 ### 4. Delicious Menu
 The primary browsing interface where users can view available food items, descriptions, and prices.
-![Delicious Menu](screenshots/screenshot_4.png)
+![Delicious Menu](Screenshots/screenshot_4.png)
 
 ### 5. Quick Add to Cart
 The AJAX-powered "Add to Cart" functionality providing instant visual feedback without reloading the page.
-![Quick Add to Cart](screenshots/screenshot_5.png)
+![Quick Add to Cart](Screenshots/screenshot_5.png)
 
 ### 6. Shopping Cart Interface
 A seamless cart layout where users can review their selected items, images, and prices.
-![Shopping Cart Interface](screenshots/screenshot_6.png)
+![Shopping Cart Interface](Screenshots/screenshot_6.png)
 
 ### 7. Dynamic Quantity Controls
 Users can easily update quantities using the dynamic `+` and `-` buttons, instantly recalculating the subtotal.
-![Dynamic Quantity Controls](screenshots/screenshot_7.png)
+![Dynamic Quantity Controls](Screenshots/screenshot_7.png)
 
 ### 8. Order Placement & Checkout
 The final order summary displaying item totals, delivery fees, and the main checkout action.
-![Order Placement](screenshots/screenshot_8.png)
+![Order Placement](Screenshots/screenshot_8.png)
 
 ### 9. Customer Order History
 A dedicated profile section for customers to view a detailed history of their past orders and current delivery status.
-![Customer Order History](screenshots/screenshot_9.png)
+![Customer Order History](Screenshots/screenshot_9.png)
 
 ### 10. Admin Dashboard - Overview
 The main entry point for the Admin panel, giving quick access to all management tools and metrics.
-![Admin Dashboard Overview](screenshots/screenshot_10.png)
+![Admin Dashboard Overview](Screenshots/screenshot_10.png)
 
 ### 11. Admin Panel - User Management
 An interface for administrators to view, update, or remove registered users on the platform.
-![Admin Panel - User Management](screenshots/screenshot_11.png)
+![Admin Panel - User Management](Screenshots/screenshot_11.png)
 
 ### 12. Admin Panel - Inventory & Products
 A powerful table view for administrators to track inventory, view product images, and manage prices.
-![Admin Panel - Inventory & Products](screenshots/screenshot_12.png)
+![Admin Panel - Inventory & Products](Screenshots/screenshot_12.png)
 
 ### 13. Admin Panel - Product Uploads
 The form where admins can add new menu items and upload product images directly to Cloudinary.
-![Admin Panel - Product Uploads](screenshots/screenshot_13.png)
+![Admin Panel - Product Uploads](Screenshots/screenshot_13.png)
 
 ---
 
